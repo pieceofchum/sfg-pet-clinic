@@ -34,12 +34,16 @@
 				<artifactId>maven-release-plugin</artifactId>
 				<configuration>
 					<goals>install</goals>
+					<checkModificationExcludes>
+						<checkModificationExclude>pom.xml</checkModificationExclude>
+					</checkModificationExcludes>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
 	<scm>
 		<developerConnection>scm:git:https://github.com/pieceofchum/sfg-pet-clinic.git</developerConnection>
-	  <tag>sfg-pet-clinic-0.0.1</tag>
-  </scm>
+		<connection></connection>
+	  	<tag>sfg-pet-clinic-0.0.1</tag>
+  	</scm>
 </project>
