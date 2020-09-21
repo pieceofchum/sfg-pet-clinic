@@ -1,10 +1,7 @@
 package guru.springframework.sfgpetclinic.bootstrap;
 
 import guru.springframework.sfgpetclinic.model.*;
-import guru.springframework.sfgpetclinic.services.OwnerService;
-import guru.springframework.sfgpetclinic.services.PetTypeService;
-import guru.springframework.sfgpetclinic.services.VetService;
-import guru.springframework.sfgpetclinic.services.map.SpecialtyMapService;
+import guru.springframework.sfgpetclinic.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -15,13 +12,16 @@ public class DataLoader implements CommandLineRunner {
     private final OwnerService ownerService;
     private final VetService vetService;
     private final PetTypeService petTypeService;
-    private final SpecialtyMapService specialtyMapService;
+    private final SpecialtyService specialtyService;
+    private final VisitService visitService;
 
-    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialtyMapService specialtyMapService) {
+    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService,
+                      SpecialtyService specialtyService, VisitService visitService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
         this.petTypeService = petTypeService;
-        this.specialtyMapService = specialtyMapService;
+        this.specialtyService = specialtyService;
+        this.visitService = visitService;
     }
 
     @Override
@@ -74,19 +74,27 @@ public class DataLoader implements CommandLineRunner {
         owner2.getPets().add(fionasPet);
         ownerService.save(owner2);
 
-        System.out.println("Loaded Owners....");
+        System.out.println("Loaded Owners and Pets....");
+
+        Visit catVisit = new Visit();
+        catVisit.setPet(fionasPet);
+        catVisit.setDate(LocalDate.now());
+        catVisit.setDescription("Sneezy Kitty");
+        visitService.save(catVisit);
+
+        System.out.println("Loaded Visits....");
 
         Specialty radiology = new Specialty();
         radiology.setDescription("Radiology");
-        Specialty savedRadiology = specialtyMapService.save(radiology);
+        Specialty savedRadiology = specialtyService.save(radiology);
 
         Specialty surgery = new Specialty();
         surgery.setDescription("Surgery");
-        Specialty savedSurgery = specialtyMapService.save(surgery);
+        Specialty savedSurgery = specialtyService.save(surgery);
 
         Specialty dentistry = new Specialty();
         dentistry.setDescription("Dentistry");
-        Specialty savedDentistry = specialtyMapService.save(dentistry);
+        Specialty savedDentistry = specialtyService.save(dentistry);
 
         System.out.println("Loaded Specialties....");
 
